@@ -1,5 +1,10 @@
 const uuid = require('uuid');
 
+function StorageException(message) {
+   this.message = message;
+   this.name = "StorageException";
+}
+
 const BlogPosts = {
   create: function(title, content, author, publishDate) {
     const post = {
