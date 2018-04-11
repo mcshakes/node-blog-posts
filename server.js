@@ -61,6 +61,13 @@ app.put('/blog-posts/:id', jsonParser, (req, res) => {
 });
 // End of PUT block
 
+app.delete('/blog-posts/:id', (req, res) => {
+  BlogPosts.delete(req.params.id);
+  console.log(`Deleted blog post \`${req.params.ID}\``);
+  res.status(204).end();
+});
+// DELETE block
+
 app.listen(process.env.PORT || 8080, () => {
   console.log(`App is listening on port ${process.env.PORT || 8080}`)
 } )
