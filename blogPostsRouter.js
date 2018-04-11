@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
+
 const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
 
 const {BlogPosts} = require("./models")
-const jsonParser = bodyParser.json();
 
 BlogPosts.create("How to smoke Kielbasa", "All in the rub, baby. For the heat level is the end game", "Daud McSheigh");
 BlogPosts.create("Capitalism Reimagined", "Greed is good", "Shania Twilip");
