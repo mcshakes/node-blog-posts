@@ -14,18 +14,22 @@ router.get("/", (req,res) => {
   res.json(BlogPosts.get());
 })
 
+function objectHandler(objectFields, request, response) {
+  for (let i = 0; i <objectFields.length; i++) {
+    const field = objectFields[i];
+
+    if (!(field in request.body)) {
+      let message = `Missing \`${field}\` in request body`
+      console.error(message);
+      return response.status(400).send(message);
+    }
+  }
+}
+
 router.post("/", jsonParser, (req, res) => {
   const requiredFields = ["title", "content", "author"];
 
-  for (let i = 0; i <requiredFields.length; i++) {
-    const field = requiredFields[i];
-
-    if (!(field in req.body)) {
-      let message = `Missing \`${field}\` in request body`
-      console.error(mesage);
-      return res.status(400).send(message);
-    }
-  }
+  objectHandler(requiredFields, req, res)
 
   const blogPost = BlogPosts.create(req.body.title, req.body.content, req.body.author);
   res.status(201).json(blogPost);
@@ -34,14 +38,9 @@ router.post("/", jsonParser, (req, res) => {
 
 router.put('/:id', jsonParser, (req, res) => {
   const requiredFields = ["title", "content", "author"];
-  for (let i=0; i<requiredFields.length; i++) {
-    const field = requiredFields[i];
-    if (!(field in req.body)) {
-      const message = `Missing \`${field}\` in request body`
-      console.error(message);
-      return res.status(400).send(message);
-    }
-  }
+
+
+  objectHandler(requiredFields, req, res)
 
   if (req.params.id !== req.body.id) {
     const message = `Request path id (${req.params.id}) and request body id (${req.body.id}) must match`;
