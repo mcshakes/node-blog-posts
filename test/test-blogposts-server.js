@@ -39,6 +39,9 @@ describe("Blog Posts", function() {
   it("should add a blog post on POST", function() {
     const newPost = {title: "Geese", content: "they are birds, probably", author: "Jim Peats" };
 
+    const expectedKeys = ['id', 'publishDate'].concat(Object.keys(newPost));
+    // NOTE: WHy is the above required? test fails with the commented out code
+
     return chai.request(app)
       .post("/blog-posts")
       .send(newPost)
@@ -46,10 +49,13 @@ describe("Blog Posts", function() {
         expect(res).to.have.status(201);
         expect(res).to.be.json;
         expect(res.body).to.a("object");
-        expect(res.body).to.include.keys("id", "title", "content", "author", "publishDate");
-        expect(res.body.id).to.not.equal(null);
+        // expect(res.body).to.include.keys("id", "title", "content", "author", "publishDate");
+        expect(res.body).to.have.all.keys(expectedKeys);
+        expect(res.body.title).to.equal(newPost.title);
+        expect(res.body.content).to.equal(newPost.content);
+        expect(res.body.author).to.equal(newPost.author)
 
-        expect(res.body).to.deep.equal(Object.assign(newPost, {id: res.body.id}));
+        // expect(res.body).to.deep.equal(Object.assign(newPost, {id: res.body.id}));
       });
   }); //End of POST
 
