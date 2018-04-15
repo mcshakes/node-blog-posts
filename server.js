@@ -48,6 +48,4 @@ if (require.main === module) {
   runServer().catch(err => console.log(err));
 }
 
-// app.listen(process.env.PORT || 8080, () => {
-//   console.log(`App is listening on port ${process.env.PORT || 8080}`)
-// } )
+module.exports = {app, runServer, closeServer};
